@@ -23,9 +23,7 @@ export class AppComponent implements OnInit {
     // Using JSON.parse() to get stringify form from login() method in account.service.ts into Object form here
     // We are setting the current user in our account service 
     // This helps the browser to persist the login after refreshing or closing the browser
-    const user: User = JSON.parse(localStorage.getItem('user') ?? '');
+    const user: User = JSON.parse(localStorage.getItem('user')?? '{}');
     this.accountService.setCurrentUser(user);
   }
-
-  
 }
