@@ -27,9 +27,8 @@ export class AccountService {
         const user = response;
         if (user) {
           // Populate user object in localStorage, give key of 'user' and stringify the object we get back
-          localStorage.setItem('user', JSON.stringify(user)); 
           // Set ReplaySubject to next User we get back
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
         }
       })
     )
@@ -39,14 +38,14 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
       map((user: User) => {
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
         }
       })
     )
   }
 
   setCurrentUser(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
 
