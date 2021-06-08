@@ -36,8 +36,10 @@ export class ErrorInterceptor implements HttpInterceptor {
                 // not appropriate to display a toastr of errors 
                 // a list of validation errors will be displayed created seperately and displayed
                 throw modalStateErrors.flat();
-              } else {
+              } else if (typeof(error.error) === 'object'){
                 this.toastr.error(error.statusText, error.status);
+              } else {
+                this.toastr.error(error.error, error.status);
               }
               break;
             case 401:
