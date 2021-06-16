@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using API.Entities;
@@ -16,7 +17,7 @@ namespace API.Data
 
             // If no users, interrogate the file and store it in the variable
             var userData = await System.IO.File.ReadAllTextAsync("Data/UserSeedData.json");
-            // Users are now a list contained the the following variable
+            // Users are now a list contained in the following variable
             var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
             if (users == null) return;
 
@@ -34,6 +35,7 @@ namespace API.Data
 
             foreach(var user in users)
             {
+                user.Photos.First().IsApproved = true;
                 user.UserName = user.UserName.ToLower();
                 await userManager.CreateAsync(user, "Pa$$w0rd");
                 await userManager.AddToRoleAsync(user, "Member");
